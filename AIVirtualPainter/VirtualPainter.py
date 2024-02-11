@@ -33,9 +33,24 @@ while True:
 
         # 3. check which finger is up
         fingers = detector.fingersUp()
-        print(fingers)
 
-    # setup the image bar
+        if fingers[1] and fingers[2]:
+            xp, yp = 0, 0
+            print("Selection Mode")
+
+            cv2.rectangle(img, (x1, y1 - 25),
+                          (x2, y2 + 25),
+                          (255, 0, 200),
+                          cv2.FILLED)
+
+        if fingers[1] and fingers[2] == False:
+            cv2.circle(img, (x1, y1),
+                       20,
+                       (255, 0, 200),
+                       cv2.FILLED)
+            print("Drawing mode!!!!.>>>")
+
+    # set up the image bar
     img[0:125, 0:1280] = header
 
     cv2.imshow("image", img)
