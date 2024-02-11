@@ -2,7 +2,7 @@ import cv2
 import numpy as np
 import time
 import os
-import cvzone
+import hand_tracking as hdm
 
 folder_name = "../Resources/images/painterTools"
 list_image_names = os.listdir(folder_name)
@@ -18,9 +18,13 @@ cap = cv2.VideoCapture(0)
 cap.set(3, 1280)
 cap.set(4, 720)
 
+detector = hdm.HandDetector()
+
 while True:
     ret, frame = cap.read()
     frame = cv2.flip(frame, 1)
+
+    frame = detector.findHands(frame)
 
     # setup the image bar
     frame[0:125, 0:1280] = header
