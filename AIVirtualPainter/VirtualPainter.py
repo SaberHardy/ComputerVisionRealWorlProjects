@@ -21,15 +21,24 @@ cap.set(4, 720)
 detector = hdm.HandDetector()
 
 while True:
-    ret, frame = cap.read()
-    frame = cv2.flip(frame, 1)
+    ret, img = cap.read()
+    img = cv2.flip(img, 1)
+    img = detector.findHands(img)
 
-    frame = detector.findHands(frame)
+    lmList, bbox = detector.findPosition(img, draw=False)
+    if len(lmList) != 0:
+        # print(lmList)
+        x1, y1 = lmList[8][1:]
+        x2, y2 = lmList[12][1:]
+
+        # 3. check which finger is up
+        fingers = detector.fingersUp()
+        print(fingers)
 
     # setup the image bar
-    frame[0:125, 0:1280] = header
+    img[0:125, 0:1280] = header
 
-    cv2.imshow("image", frame)
+    cv2.imshow("image", img)
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
 
